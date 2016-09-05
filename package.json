@@ -1,0 +1,27 @@
+{
+  "name": "doris",
+  "version": "1.0.0",
+  "description": "Edit todos in the README from the cli",
+  "main": "doris.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/karlpokus/doris.git"
+  },
+  "keywords": [
+    "todo",
+    "readme",
+    "cli"
+  ],
+  "author": "Karl Pokus <karl.pokus@gmail.com> (https://github.com/karlpokus)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/karlpokus/doris/issues"
+  },
+  "homepage": "https://github.com/karlpokus/doris#readme",
+  "dependencies": {
+    "terminal-menu": "^2.1.1"
+  }
+}
