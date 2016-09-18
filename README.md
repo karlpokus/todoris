@@ -35,8 +35,9 @@ Finished listitem -> - [x] string 2
 # todos
 - [x] check readme in cwd
 - [x] check readme has todos
-- [ ] publish
+- [x] publish
 - [x] display project title
+- [ ] add todolist to end of file if missing
 
 # licence
 MIT
