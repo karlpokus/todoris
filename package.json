@@ -1,27 +1,31 @@
 {
-  "name": "doris",
+  "name": "todoris",
   "version": "1.0.0",
-  "description": "Edit todos in the README from the cli",
-  "main": "doris.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "description": "Edit todos in local README from the cli",
+  "bin": {
+    "todoris": "./todoris.js"
   },
+  "preferGlobal": true,
+  "scripts": {},
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/karlpokus/doris.git"
+    "url": "git+https://github.com/karlpokus/todoris.git"
   },
   "keywords": [
     "todo",
+    "toggle",
     "readme",
     "cli"
   ],
   "author": "Karl Pokus <karl.pokus@gmail.com> (https://github.com/karlpokus)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/karlpokus/doris/issues"
+    "url": "https://github.com/karlpokus/todoris/issues"
   },
-  "homepage": "https://github.com/karlpokus/doris#readme",
+  "homepage": "https://github.com/karlpokus/todoris#readme",
   "dependencies": {
-    "terminal-menu": "^2.1.1"
-  }
+    "chalk": "^1.1.3",
+    "readline-sync": "^1.4.4"
+  },
+  "devDependencies": {}
 }

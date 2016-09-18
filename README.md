@@ -1,2 +1,40 @@
-# doris
-Edit todos in the README from the cli. Work in progress!
+# todoris
+Edit todos in local README from the cli.
+
+Note: Experimental. Use with caution. See requirements below. Not tested on Windows. Does not support nested lists.
+
+# install
+```
+$ npm i todoris -g
+```
+Note: For local installs you need to include `scripts: todoris: todoris` in `package.json`, prepend the command with `npm run` and append `--` before args.
+
+# api
+```
+# list and toggle by index
+todoris
+
+# add
+todoris 'add tests' npm
+```
+
+# requirements
+- Always run from project root
+- `README.md` must be in root and contain only *one* todolist (other lists are ok)
+- *no* empty lines between header and listitems
+- todolist must look like this
+
+```
+Header (case-insensitive) -> # todos || # todo
+Pending listitem -> - [ ] string 1
+Finished listitem -> - [x] string 2
+```
+
+# todos
+- [x] check readme in cwd
+- [x] check readme has todos
+- [ ] publish
+- [x] display project title
+
+# licence
+MIT
