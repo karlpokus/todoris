@@ -1,3 +1,5 @@
+[![npm version](https://badge.fury.io/js/todoris.svg)](https://badge.fury.io/js/todoris)
+
 # todoris
 Edit todos in local README from the cli.
 
