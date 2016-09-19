@@ -38,6 +38,7 @@ Finished listitem -> - [x] string 2
 - [x] publish
 - [x] display project title
 - [ ] add todolist to end of file if missing
+- [ ] fix bug #1
 
 # licence
 MIT
