@@ -20,9 +20,9 @@ $ npm test
 - a
 - b
 
-# TODOs
+# todos
 - [ ] string 1
-- [x] string 2
+- [ ] string 2
 
 # list after todo
 - c

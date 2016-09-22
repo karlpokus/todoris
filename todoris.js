@@ -5,7 +5,47 @@ var fs = require('fs'),
     rl = require('readline'),
     chalk = require('chalk'),
     path = require('path'),
-    readme = path.join(process.cwd(), 'README.md');
+    readme = path.join(process.cwd(), 'README.md'); // test/README.md for testing
+
+function createTodolist(todos, cb) {
+  var data;
+
+  if (todos.length > 0) {
+    todos = todos.map(function(str){
+      return '- [ ] ' + str;
+    }).join('\n') + '\n\n';
+
+    data = '\n# TODOs\n' + todos;
+  } else {
+    data = '\n# TODOs\n\n';
+  }
+
+  fs.appendFile(readme, data, function(err) {
+    if (err) {
+      cb(err);
+    } else {
+      cb();
+    }
+  });
+}
+
+function hasTodolist(cb) {
+  var read = rl.createInterface({
+        input: fs.createReadStream(readme)
+      }),
+      headerFound = false,
+      isTodolistHeader = function(str){
+        if (/^#\stodo(s?)$/i.test(str)) {
+          headerFound = true;
+        }
+      };
+
+  read.on('line', function(line){
+    isTodolistHeader(line);
+  }).on('close', function(){
+    cb(headerFound);
+  });
+}
 
 function add(todos, cb) {
   var read = rl.createInterface({
@@ -36,11 +76,6 @@ function add(todos, cb) {
     text += line + '\n';
 
   }).on('close', function(){
-    if (!todoHeaderIndex) {
-      fyi('err', 'no todos added');
-      return cb();
-    }
-
     fyi('ok', todos.length + ' added');
     fs.createWriteStream(readme)
       .end(text, 'utf8', cb);
@@ -75,14 +110,7 @@ function fetch(cb) {
     i++;
 
   }).on('close', function(){
-
-    if (todos.length > 0) {
-      cb(todos);
-    } else {
-      fyi('err', 'no todos found');
-      return
-    }
-
+    cb(todos);
   });
 }
 
@@ -112,7 +140,6 @@ function edit(todo, toggled, cb) {
 }
 
 function list(arr) {
-
   try {
     var pkg = require(path.join(process.cwd(), 'package.json'));
     fyi('header', pkg.name);
@@ -132,6 +159,8 @@ function list(arr) {
     } else {
       fyi('ok', 'exit');
     }
+  } else {
+    fyi('neutral', 'no items yet');
   }
 }
 
@@ -154,12 +183,35 @@ fs.stat(readme, function(err, stat){
     fyi('err', 'no readme found in ' + process.cwd());
   } else {
     var todos = process.argv.slice(2);
-    if (todos.length > 0) {
-      add(todos, function(){
-        fetch(list);
-      });
-    } else {
-      fetch(list);
-    }
+
+    hasTodolist(function(flag){
+      if (!flag) {
+        fyi('err', 'no todolist found in readme in ' + process.cwd());
+
+        if (!rl_sync.keyInYN('Should I create one?')) {
+          fyi('ok', 'exit');
+
+        } else {
+          createTodolist(todos, function(err){
+            if (err) {
+              return fyi('err', err);
+            }
+
+            fyi('ok', 'todolist added');
+            fetch(list);
+          });
+        }
+
+      } else {
+        if (todos.length > 0) {
+          add(todos, function(){
+            fetch(list);
+          });
+        } else {
+          fetch(list);
+        }
+
+      }
+    });
   }
 });

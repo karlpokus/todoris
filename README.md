@@ -24,6 +24,7 @@ todoris 'add tests' npm
 - Always run from project root
 - `README.md` must be in root and contain only *one* todolist (other lists are ok)
 - *no* empty lines between header and listitems
+- don't place your todolist at the end of the file
 - todolist must look like this
 
 ```
@@ -37,8 +38,8 @@ Finished listitem -> - [x] string 2
 - [x] check readme has todos
 - [x] publish
 - [x] display project title
-- [ ] add todolist to end of file if missing
-- [ ] fix bug #1
+- [x] ask to add todolist to end of file if missing
+- [x] fix bug #1
 
 # licence
 MIT
