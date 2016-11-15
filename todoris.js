@@ -177,41 +177,85 @@ function fyi(state, str) {
   console.log(str);
 }
 
-// init
-fs.stat(readme, function(err, stat){
-  if (err) {
-    fyi('err', 'no readme found in ' + process.cwd());
+function parseArgs(isTTY, cb) {
+  var todos;
+
+  if (isTTY) {
+    todos = process.argv.slice(2);
+    cb(todos);
+
   } else {
-    var todos = process.argv.slice(2);
+    var data = '',
+        out;
 
-    hasTodolist(function(flag){
-      if (!flag) {
-        fyi('err', 'no todolist found in readme in ' + process.cwd());
+    process.stdin
+      .on('data', function(chunk) {
+        data += chunk;
+      })
+      .on('end', function() {
+        if (/\n/.test(data)) { // split by EOL
+          todos = data
+            .trim()
+            .split('\n')
+            .filter(function(item){ // filter empty strings
+              return item;
+            });
+          cb(todos);
 
-        if (!rl_sync.keyInYN('Should I create one?')) {
-          fyi('ok', 'exit');
+        } else if (/\s/.test(data)) { // split by space
+          todos = data.trim().split(' ');
+          cb(todos);
 
         } else {
-          createTodolist(todos, function(err){
-            if (err) {
-              return fyi('err', err);
-            }
-
-            fyi('ok', 'todolist added');
-            fetch(list);
-          });
+          cb([]);
         }
-
-      } else {
-        if (todos.length > 0) {
-          add(todos, function(){
-            fetch(list);
-          });
-        } else {
-          fetch(list);
-        }
-
-      }
     });
   }
-});
+}
+
+function main(isTTY) {
+  fs.stat(readme, function(err, stat){
+    if (err) {
+      fyi('err', 'no readme found in ' + process.cwd());
+
+    } else {
+      parseArgs(isTTY, function(todos){
+
+        hasTodolist(function(flag){
+          if (!flag) {
+            fyi('err', 'no todolist found in readme in ' + process.cwd());
+
+            if (!rl_sync.keyInYN('Should I create one?')) {
+              fyi('ok', 'exit');
+
+            } else {
+              createTodolist(todos, function(err){
+                if (err) {
+                  return fyi('err', err);
+                }
+
+                fyi('ok', 'todolist added');
+                fetch(list);
+              });
+            }
+
+          } else {
+            if (todos.length > 0) {
+              add(todos, function(){
+                fetch(list);
+              });
+            } else {
+              fetch(list);
+            }
+          }
+        });
+      });
+    }
+  });
+}
+
+if (process.stdin.isTTY) {
+  main(true);
+} else {
+  main(false);
+}

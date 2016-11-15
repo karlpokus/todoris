@@ -14,10 +14,13 @@ Note: For local installs you need to include `scripts: todoris: todoris` in `pac
 # api
 ```
 # list and toggle by index
-todoris
+$ todoris
 
 # add
-todoris 'add tests' npm
+$ todoris 'add tests' npm
+
+# pipe
+$ cat todosFile.txt | todoris
 ```
 
 # requirements
@@ -40,6 +43,7 @@ Finished listitem -> - [x] string 2
 - [x] display project title
 - [x] ask to add todolist to end of file if missing
 - [x] fix bug #1
+- [x] pipe data to todoris
 
 # licence
 MIT
